@@ -3,6 +3,18 @@ import tkinter.messagebox as messagebox
 from back import *
 
 
+#HAY QUE REHACER ESTA FUNCION ESTA HECHA SOLO PARA VERIFICAR
+def simular(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, rondas):
+    for _ in range(rondas):
+        resultado_1, resultado_2 = tirar_bolos(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9)
+        if resultado_2 != None:
+            print('resultado Primer tiro')
+            print(resultado_1)
+            print('resultado Segundo tiro')
+            print(resultado_2)
+        else:
+            print('resultado 1')
+            print(resultado_1)
 
 def cargar_datos():
     # Crear una ventana
@@ -65,16 +77,20 @@ def validar_ingreso(probabilidades_1er_tiro, probabilidades_2do_tiro, puntos_max
     # Obtener los valores ingresados por el usuario
     valores_probabilidades_1er_tiro = [probabilidad.get() for probabilidad in probabilidades_1er_tiro]
     valores_probabilidades_2do_tiro = [probabilidad.get() for probabilidad in probabilidades_2do_tiro]
+    probabilidad_7 = valores_probabilidades_2do_tiro[0:4]
+    probabilidad_8 = valores_probabilidades_2do_tiro[4:7]
+    probabilidad_9 = valores_probabilidades_2do_tiro[7:]
     puntaje_maximo_1ra_tirada = puntos_max_1ra_tirada.get()
     puntaje_maximo_2da_tirada = puntos_max_2da_tirada.get()
     cantidad_rondas = rondas.get()
 
     # Validar las probabilidades y puntos
-    valido = validar_datos(valores_probabilidades_1er_tiro, valores_probabilidades_2do_tiro, puntaje_maximo_1ra_tirada, puntaje_maximo_2da_tirada, cantidad_rondas)
+    valido = validar_datos(valores_probabilidades_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, puntaje_maximo_1ra_tirada, puntaje_maximo_2da_tirada, cantidad_rondas)
 
     # Mostrar resultado
     if valido:
         messagebox.showinfo("Éxito", "Datos CORRECTAMENTE cargados.")
+        simular(valores_probabilidades_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, cantidad_rondas)
     else:
         messagebox.showerror("Error", "Datos ERRONEOS, revisar.")
 
