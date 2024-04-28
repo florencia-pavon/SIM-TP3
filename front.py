@@ -27,6 +27,7 @@ def cargar_datos():
     puntos_max_1ra_tirada = tk.IntVar()
     puntos_max_2da_tirada = tk.IntVar()
     rondas = tk.IntVar()
+    puntos_probabilidad = tk.IntVar()
 
     # Etiquetas de las columnas
     primeras_columnas = ["Primera Ronda","Segunda Ronda"]
@@ -65,15 +66,17 @@ def cargar_datos():
     tk.Entry(ventana_probabilidades, textvariable=puntos_max_2da_tirada).grid(row=10, column=4)
     tk.Label(ventana_probabilidades, text="Cuantas rondas desea simular?").grid(row=1, column=5)
     tk.Entry(ventana_probabilidades, textvariable=rondas).grid(row=2, column=5)
+    tk.Label(ventana_probabilidades, text="La probabilidad de cuantos puntos desea cualcular?").grid(row=3, column=5)
+    tk.Entry(ventana_probabilidades, textvariable=puntos_probabilidad).grid(row=4, column=5)
 
 
     
     # Botón para validar las probabilidades
-    boton_validar = tk.Button(ventana_probabilidades, text="Validar", command=lambda: validar_ingreso(probabilidades_1er_tiro, probabilidades_2do_tiro, puntos_max_1ra_tirada, puntos_max_2da_tirada, rondas))
+    boton_validar = tk.Button(ventana_probabilidades, text="Validar", command=lambda: validar_ingreso(probabilidades_1er_tiro, probabilidades_2do_tiro, puntos_max_1ra_tirada, puntos_max_2da_tirada, rondas, puntos_probabilidad))
     boton_validar.grid(row=20, column=20, pady=10)
     
     
-def validar_ingreso(probabilidades_1er_tiro, probabilidades_2do_tiro, puntos_max_1ra_tirada, puntos_max_2da_tirada, rondas):
+def validar_ingreso(probabilidades_1er_tiro, probabilidades_2do_tiro, puntos_max_1ra_tirada, puntos_max_2da_tirada, rondas, puntos_probabilidad):
     # Obtener los valores ingresados por el usuario
     valores_probabilidades_1er_tiro = [probabilidad.get() for probabilidad in probabilidades_1er_tiro]
     valores_probabilidades_2do_tiro = [probabilidad.get() for probabilidad in probabilidades_2do_tiro]
@@ -83,9 +86,10 @@ def validar_ingreso(probabilidades_1er_tiro, probabilidades_2do_tiro, puntos_max
     puntaje_maximo_1ra_tirada = puntos_max_1ra_tirada.get()
     puntaje_maximo_2da_tirada = puntos_max_2da_tirada.get()
     cantidad_rondas = rondas.get()
+    cantidad_puntos_probabilidad = puntos_probabilidad.get()
 
     # Validar las probabilidades y puntos
-    valido = validar_datos(valores_probabilidades_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, puntaje_maximo_1ra_tirada, puntaje_maximo_2da_tirada, cantidad_rondas)
+    valido = validar_datos(valores_probabilidades_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, puntaje_maximo_1ra_tirada, puntaje_maximo_2da_tirada, cantidad_rondas, cantidad_puntos_probabilidad)
 
     # Mostrar resultado
     if valido:

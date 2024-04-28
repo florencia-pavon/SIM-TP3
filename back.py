@@ -50,7 +50,7 @@ def tirar_bolos(prob_1, prob_7, prob_8, prob_9):
 
 
 #Funcion que revisa cada dato que cargo el usuario devuelve True si esta todo ok o False si algo no esta bien
-def validar_datos(probabilidades_1, probabilidad_7, probabilidad_8, probabilidad_9, puntos_max_1, puntos_max_2, cantidad_rondas):
+def validar_datos(probabilidades_1, probabilidad_7, probabilidad_8, probabilidad_9, puntos_max_1, puntos_max_2, cantidad_rondas, puntos_prob):
     probabilidades = probabilidades_1 + probabilidad_7 + probabilidad_8 + probabilidad_9
     
     # Verificar que todas las probabilidades estén entre 0 y 1
@@ -70,6 +70,10 @@ def validar_datos(probabilidades_1, probabilidad_7, probabilidad_8, probabilidad
     
     #Verificar que la cantidad de rondas no sea negativa
     if cantidad_rondas <= 0:
+        return False
+    
+    #Verificar que los puntos para calcular la probabilidad no sean negativos
+    if puntos_prob <= 0:
         return False
     
     return True
