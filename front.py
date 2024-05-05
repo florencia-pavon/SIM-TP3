@@ -4,7 +4,8 @@ from back import *
 
 
 #HAY QUE REHACER ESTA FUNCION ESTA HECHA SOLO PARA VERIFICAR
-def simular(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, rondas, puntaje_max_1, puntaje_max_2):
+def simular(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, rondas, puntaje_max_1, puntaje_max_2, cantidad_puntos_probabilidad):
+    puntos_totales = 0
     for _ in range(rondas):
         resultado_1 = tirar_bolos_primer_tiro(probabilidad_1er_tiro)
         if resultado_1 != 10:
@@ -15,11 +16,15 @@ def simular(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_
             print(resultado_2)
             print('Puntos')
             print(puntos)
+            puntos_totales += puntos
         else:
             print('resultado 1')
             print(resultado_1)
             print('Puntos')
             print(puntaje_max_1)
+            puntos_totales += puntaje_max_1
+    print('Puntos totales')
+    print(puntos_totales)
 
 def cargar_datos():
     # Crear una ventana
@@ -99,7 +104,7 @@ def validar_ingreso(probabilidades_1er_tiro, probabilidades_2do_tiro, puntos_max
     # Mostrar resultado
     if valido:
         messagebox.showinfo("Éxito", "Datos CORRECTAMENTE cargados.")
-        simular(valores_probabilidades_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, cantidad_rondas, puntaje_maximo_1ra_tirada, puntaje_maximo_2da_tirada)
+        simular(valores_probabilidades_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, cantidad_rondas, puntaje_maximo_1ra_tirada, puntaje_maximo_2da_tirada, cantidad_puntos_probabilidad)
     else:
         messagebox.showerror("Error", "Datos ERRONEOS, revisar.")
 
