@@ -4,9 +4,14 @@ from back import *
 
 
 #HAY QUE REHACER ESTA FUNCION ESTA HECHA SOLO PARA VERIFICAR
-def simular(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, rondas, puntaje_max_1, puntaje_max_2, cantidad_puntos_probabilidad):
+def simular(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, rondas, puntaje_max_1, puntaje_max_2, cantidad_puntos_probabilidad, cantidad_rondas_probabilidad):
     puntos_totales = 0
+    puntos_ronda_probabilidad = 0
+    exito = 0
+    contador = 0
     for _ in range(rondas):
+        contador += 1
+            
         resultado_1 = tirar_bolos_primer_tiro(probabilidad_1er_tiro)
         if resultado_1 != 10:
             print('Resultado Primer tiro')
@@ -16,6 +21,7 @@ def simular(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_
             print(resultado_2)
             print('Puntos')
             print(puntos)
+            puntos_ronda_probabilidad += puntos
             puntos_totales += puntos
         else:
             print('resultado 1')
@@ -23,8 +29,26 @@ def simular(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_
             print('Puntos')
             print(puntaje_max_1)
             puntos_totales += puntaje_max_1
-    print('Puntos totales')
+            puntos_ronda_probabilidad += puntaje_max_2
+            
+        if contador == cantidad_rondas_probabilidad:
+            contador = 0
+            print('\nPUNTOS TOTALES DE', cantidad_rondas_probabilidad, 'RONDAS')
+            print(puntos_ronda_probabilidad, '\n')
+            if puntos_ronda_probabilidad > cantidad_puntos_probabilidad:
+                exito += 1
+            puntos_ronda_probabilidad = 0          
+            
+    print('\nPuntos totales')
     print(puntos_totales)
+    probabilidad = 0
+    cantidad_casos_probabilidad = rondas //cantidad_rondas_probabilidad
+    print('CANTIDAD CASOS DE PROBABILIDAD', cantidad_casos_probabilidad)
+    if cantidad_casos_probabilidad != 0:
+        probabilidad = round(exito/cantidad_casos_probabilidad,2)
+    print('Probabilidad de que en', cantidad_rondas_probabilidad, 'rondas obtenga', cantidad_puntos_probabilidad)
+    print(probabilidad)
+    
 
 def cargar_datos():
     # Crear una ventana
@@ -37,8 +61,9 @@ def cargar_datos():
     puntos_max_1ra_tirada = tk.IntVar()
     puntos_max_2da_tirada = tk.IntVar()
     rondas = tk.IntVar()
+    rondas_probabilidad = tk.IntVar()
     puntos_probabilidad = tk.IntVar()
-
+    
     # Etiquetas de las columnas
     primeras_columnas = ["Primera Ronda","Segunda Ronda"]
     for i, columna in enumerate(primeras_columnas):
@@ -76,17 +101,19 @@ def cargar_datos():
     tk.Entry(ventana_probabilidades, textvariable=puntos_max_2da_tirada).grid(row=10, column=4)
     tk.Label(ventana_probabilidades, text="Cuantas rondas desea simular?").grid(row=1, column=5)
     tk.Entry(ventana_probabilidades, textvariable=rondas).grid(row=2, column=5)
-    tk.Label(ventana_probabilidades, text="La probabilidad de cuantos puntos desea cualcular?").grid(row=3, column=5)
-    tk.Entry(ventana_probabilidades, textvariable=puntos_probabilidad).grid(row=4, column=5)
+    tk.Label(ventana_probabilidades, text="Cantidad de rondas para calcular la probabilidad").grid(row=3, column=5)
+    tk.Entry(ventana_probabilidades, textvariable=rondas_probabilidad).grid(row=4, column=5)
+    tk.Label(ventana_probabilidades, text="La probabilidad de cuantos puntos desea cualcular?").grid(row=5, column=5)
+    tk.Entry(ventana_probabilidades, textvariable=puntos_probabilidad).grid(row=6, column=5)
 
 
     
     # Botón para validar las probabilidades
-    boton_validar = tk.Button(ventana_probabilidades, text="Validar", command=lambda: validar_ingreso(probabilidades_1er_tiro, probabilidades_2do_tiro, puntos_max_1ra_tirada, puntos_max_2da_tirada, rondas, puntos_probabilidad))
+    boton_validar = tk.Button(ventana_probabilidades, text="Validar", command=lambda: validar_ingreso(probabilidades_1er_tiro, probabilidades_2do_tiro, puntos_max_1ra_tirada, puntos_max_2da_tirada, rondas, puntos_probabilidad, rondas_probabilidad))
     boton_validar.grid(row=20, column=20, pady=10)
     
     
-def validar_ingreso(probabilidades_1er_tiro, probabilidades_2do_tiro, puntos_max_1ra_tirada, puntos_max_2da_tirada, rondas, puntos_probabilidad):
+def validar_ingreso(probabilidades_1er_tiro, probabilidades_2do_tiro, puntos_max_1ra_tirada, puntos_max_2da_tirada, rondas, puntos_probabilidad, rondas_probabilidad):
     # Obtener los valores ingresados por el usuario
     valores_probabilidades_1er_tiro = [probabilidad.get() for probabilidad in probabilidades_1er_tiro]
     valores_probabilidades_2do_tiro = [probabilidad.get() for probabilidad in probabilidades_2do_tiro]
@@ -97,14 +124,15 @@ def validar_ingreso(probabilidades_1er_tiro, probabilidades_2do_tiro, puntos_max
     puntaje_maximo_2da_tirada = puntos_max_2da_tirada.get()
     cantidad_rondas = rondas.get()
     cantidad_puntos_probabilidad = puntos_probabilidad.get()
+    cantidad_rondas_probabilidad = rondas_probabilidad.get()
 
     # Validar las probabilidades y puntos
-    valido = validar_datos(valores_probabilidades_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, puntaje_maximo_1ra_tirada, puntaje_maximo_2da_tirada, cantidad_rondas, cantidad_puntos_probabilidad)
+    valido = validar_datos(valores_probabilidades_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, puntaje_maximo_1ra_tirada, puntaje_maximo_2da_tirada, cantidad_rondas, cantidad_puntos_probabilidad, cantidad_rondas_probabilidad)
 
     # Mostrar resultado
     if valido:
         messagebox.showinfo("Éxito", "Datos CORRECTAMENTE cargados.")
-        simular(valores_probabilidades_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, cantidad_rondas, puntaje_maximo_1ra_tirada, puntaje_maximo_2da_tirada, cantidad_puntos_probabilidad)
+        simular(valores_probabilidades_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_9, cantidad_rondas, puntaje_maximo_1ra_tirada, puntaje_maximo_2da_tirada, cantidad_puntos_probabilidad, cantidad_rondas_probabilidad)
     else:
         messagebox.showerror("Error", "Datos ERRONEOS, revisar.")
 

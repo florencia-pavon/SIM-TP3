@@ -50,7 +50,7 @@ def tirar_bolos_segundo_tiro(bolos_primer_tiro,prob_7, prob_8, prob_9, puntaje_m
     return bolos_segundo_tiro, puntos
 
 #Funcion que revisa cada dato que cargo el usuario devuelve True si esta todo ok o False si algo no esta bien
-def validar_datos(probabilidades_1, probabilidad_7, probabilidad_8, probabilidad_9, puntos_max_1, puntos_max_2, cantidad_rondas, puntos_prob):
+def validar_datos(probabilidades_1, probabilidad_7, probabilidad_8, probabilidad_9, puntos_max_1, puntos_max_2, cantidad_rondas, puntos_prob, rondas_prob):
     probabilidades = probabilidades_1 + probabilidad_7 + probabilidad_8 + probabilidad_9
     
     # Verificar que todas las probabilidades estén entre 0 y 1
@@ -59,8 +59,23 @@ def validar_datos(probabilidades_1, probabilidad_7, probabilidad_8, probabilidad
             return False
     
     # Verificar que la suma total de probabilidades sea igual a 1
-    if sum(probabilidades_1) != 1 or sum(probabilidad_7) != 1 or sum(probabilidad_8) != 1 or sum(probabilidad_9) != 1:
+    if round(sum(probabilidades_1),2) != 1:
+            print('Error probabilidad 1')
             return False
+        
+    if round(sum(probabilidad_7),2) != 1:
+        
+        print('error en prob 7')
+        return False
+    
+    if round(sum(probabilidad_8),2) != 1:
+        print('error en prob 8')
+        print(sum(probabilidad_8))
+        return False
+    
+    if round(sum(probabilidad_9),2) != 1:
+        print('error en prob 9')
+        return False
     
     #Verificar que los puntos ingresados por el usuario tengan sentido
     if puntos_max_2 > puntos_max_1:
@@ -74,6 +89,10 @@ def validar_datos(probabilidades_1, probabilidad_7, probabilidad_8, probabilidad
     
     #Verificar que los puntos para calcular la probabilidad no sean negativos
     if puntos_prob <= 0:
+        return False
+    
+    #Verificar que las rondas para calcular la probabilidad no sean negativos y sean menor que el total de rondas
+    if rondas_prob <= 0 or rondas_prob >= cantidad_rondas:
         return False
     
     return True
