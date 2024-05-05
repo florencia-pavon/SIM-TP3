@@ -1,6 +1,6 @@
 import random
 
-def tirar_bolos(prob_1, prob_7, prob_8, prob_9):
+def tirar_bolos_primer_tiro(prob_1):
     # Calcular los límites de los intervalos acumulados para el primer tiro
     probabilidades_acumuladas_primer_tiro = [sum(prob_1[:i+1]) for i in range(len(prob_1))]
         
@@ -12,12 +12,10 @@ def tirar_bolos(prob_1, prob_7, prob_8, prob_9):
     for i, prob in enumerate(probabilidades_acumuladas_primer_tiro):
         if numero_aleatorio_primer_tiro <= prob:
             bolos_primer_tiro = i + 7
-            break
-    
-    # Si se derribaron todos los bolos en el primer tiro, devolver el resultado y None para el segundo tiro
-    if bolos_primer_tiro == 10:
-        return bolos_primer_tiro, None
-    
+            break  
+    return bolos_primer_tiro
+
+def tirar_bolos_segundo_tiro(bolos_primer_tiro,prob_7, prob_8, prob_9, puntaje_max_segundo_tiro):
     # Probabilidades para cada cantidad de bolos derribados en el segundo tiro
     probabilidades_segundo_tiro = None
     
@@ -43,11 +41,13 @@ def tirar_bolos(prob_1, prob_7, prob_8, prob_9):
         if numero_aleatorio_segundo_tiro <= prob:
             bolos_segundo_tiro = i
             break
-    
-    # Devolver el resultado del primer y segundo tiro
-    return bolos_primer_tiro, bolos_segundo_tiro
-        
-
+    total_pinos = bolos_primer_tiro + bolos_segundo_tiro
+    puntos = 0
+    if total_pinos == 10:
+        puntos = puntaje_max_segundo_tiro
+    else:
+        puntos = total_pinos
+    return bolos_segundo_tiro, puntos
 
 #Funcion que revisa cada dato que cargo el usuario devuelve True si esta todo ok o False si algo no esta bien
 def validar_datos(probabilidades_1, probabilidad_7, probabilidad_8, probabilidad_9, puntos_max_1, puntos_max_2, cantidad_rondas, puntos_prob):
