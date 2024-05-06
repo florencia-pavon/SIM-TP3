@@ -13,7 +13,7 @@ def tirar_bolos_primer_tiro(prob_1):
         if numero_aleatorio_primer_tiro <= prob:
             bolos_primer_tiro = i + 7
             break  
-    return bolos_primer_tiro
+    return bolos_primer_tiro, numero_aleatorio_primer_tiro
 
 def tirar_bolos_segundo_tiro(bolos_primer_tiro,prob_7, prob_8, prob_9, puntaje_max_segundo_tiro):
     # Probabilidades para cada cantidad de bolos derribados en el segundo tiro
@@ -47,10 +47,10 @@ def tirar_bolos_segundo_tiro(bolos_primer_tiro,prob_7, prob_8, prob_9, puntaje_m
         puntos = puntaje_max_segundo_tiro
     else:
         puntos = total_pinos
-    return bolos_segundo_tiro, puntos
+    return bolos_segundo_tiro, numero_aleatorio_segundo_tiro, puntos
 
 #Funcion que revisa cada dato que cargo el usuario devuelve True si esta todo ok o False si algo no esta bien
-def validar_datos(probabilidades_1, probabilidad_7, probabilidad_8, probabilidad_9, puntos_max_1, puntos_max_2, cantidad_rondas, puntos_prob, rondas_prob):
+def validar_datos(probabilidades_1, probabilidad_7, probabilidad_8, probabilidad_9, puntos_max_1, puntos_max_2, cantidad_rondas, puntos_prob, rondas_prob, iteracion_i, iteracion_j):
     probabilidades = probabilidades_1 + probabilidad_7 + probabilidad_8 + probabilidad_9
     
     # Verificar que todas las probabilidades estén entre 0 y 1
@@ -59,23 +59,8 @@ def validar_datos(probabilidades_1, probabilidad_7, probabilidad_8, probabilidad
             return False
     
     # Verificar que la suma total de probabilidades sea igual a 1
-    if round(sum(probabilidades_1),2) != 1:
-            print('Error probabilidad 1')
+    if round(sum(probabilidades_1),2) != 1 or round(sum(probabilidad_7),2) != 1 or round(sum(probabilidad_8),2) != 1 or round(sum(probabilidad_9),2) != 1:
             return False
-        
-    if round(sum(probabilidad_7),2) != 1:
-        
-        print('error en prob 7')
-        return False
-    
-    if round(sum(probabilidad_8),2) != 1:
-        print('error en prob 8')
-        print(sum(probabilidad_8))
-        return False
-    
-    if round(sum(probabilidad_9),2) != 1:
-        print('error en prob 9')
-        return False
     
     #Verificar que los puntos ingresados por el usuario tengan sentido
     if puntos_max_2 > puntos_max_1:
@@ -93,6 +78,10 @@ def validar_datos(probabilidades_1, probabilidad_7, probabilidad_8, probabilidad
     
     #Verificar que las rondas para calcular la probabilidad no sean negativos y sean menor que el total de rondas
     if rondas_prob <= 0 or rondas_prob >= cantidad_rondas:
+        return False
+    
+    #Verificar que las iteraciones no sean negativas y no se salgan del total de filas max
+    if iteracion_i <= 0 or iteracion_j <= 0 or iteracion_i+iteracion_j > cantidad_rondas:
         return False
     
     return True
