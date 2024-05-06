@@ -13,9 +13,9 @@ def simular(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_
     # Crear la tabla
     tabla = ttk.Treeview(ventana_tabla, columns=("Ronda", "Rnd 1", "Pinos 1ra tirada", "Rnd 2", "Pinos 2da tirada", "Puntos", "Puntos acumulados", "Éxito"), show="headings")
     
-    # Configurar encabezados de columnas
+    # Configurar encabezados de columnas con alineación hacia la izquierda
     for col in tabla["columns"]:
-        tabla.heading(col, text=col)
+        tabla.heading(col, text=col, anchor="w")
 
     # Agregar la tabla a la ventana
     tabla.pack(expand=True, fill="both")
@@ -56,7 +56,7 @@ def simular(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_
         datos = [r+1, round(rnd_1,2), resultado_1, round(rnd_2,2), resultado_2, puntos_ronda, puntos_totales, exito]
         vector[index] = datos
         
-        if iteracion_i <= r+1 < iteracion_i + iteracion_j:
+        if iteracion_i <= r+1 <= iteracion_i + iteracion_j:
             tabla.insert("", "end", values=datos)
             
         if iteracion_i+iteracion_j != rondas:
