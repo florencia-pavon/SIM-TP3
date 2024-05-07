@@ -33,12 +33,15 @@ def simular(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_
         # Alternar entre las posiciones [0] y [1] del vector
         index = contador_vector % 2
         resultado_1, rnd_1 = tirar_bolos_primer_tiro(probabilidad_1er_tiro)
+        
+        #Caso de no tirar los 10 pinos en el 1er tiro y necesitar otro tiro
         if resultado_1 != 10:
             resultado_2,rnd_2, puntos = tirar_bolos_segundo_tiro(resultado_1, probabilidad_7, probabilidad_8, probabilidad_9, puntaje_max_2)
             puntos_ronda_probabilidad += puntos
             puntos_totales += puntos
             puntos_ronda = puntos
-            
+         
+        # Caso de tirar los 10 pinos en el 1er tiro   
         else:
             resultado_2 = 0
             rnd_2 = 0
@@ -56,15 +59,17 @@ def simular(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_
         datos = [r+1, round(rnd_1,2), resultado_1, round(rnd_2,2), resultado_2, puntos_ronda, puntos_totales, exito]
         vector[index] = datos
         
-        if iteracion_i+iteracion_j == rondas:
+        # Cuando la ultima ronda esta incluida dentro lo que el usuario pide
+        if iteracion_i + iteracion_j >= rondas:
             if iteracion_i <= r+1 <= iteracion_i + iteracion_j:
                 tabla.insert("", "end", values=datos)
-        elif iteracion_i <= r+1 < iteracion_i + iteracion_j:
-            tabla.insert("", "end", values=datos)
-            
-        if iteracion_i+iteracion_j != rondas:
-            if r == rondas-1:
+        # Cuando la ultima ronda no esta incluida dentro de lo que el usuario pide
+        elif iteracion_i + iteracion_j < rondas:
+            if iteracion_i <= r+1 < iteracion_i + iteracion_j:
                 tabla.insert("", "end", values=datos)
+            # Aca me fijo cuando estoy en la ultima ronda y la agrego
+            if r == rondas-1:
+                tabla.insert("", "end", values=datos)               
               
     probabilidad = 0
     cantidad_casos_probabilidad = rondas //cantidad_rondas_probabilidad

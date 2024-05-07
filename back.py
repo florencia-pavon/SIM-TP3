@@ -81,7 +81,8 @@ def validar_datos(probabilidades_1, probabilidad_7, probabilidad_8, probabilidad
         return False
     
     #Verificar que las iteraciones no sean negativas y no se salgan del total de filas max
-    if iteracion_i <= 0 or iteracion_j <= 0 or iteracion_i+iteracion_j > cantidad_rondas:
+    if iteracion_i <= 0 or iteracion_j <= 0 or iteracion_i+iteracion_j-1 > cantidad_rondas:
         return False
     
     return True
+
