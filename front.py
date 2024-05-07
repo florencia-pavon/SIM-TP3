@@ -72,6 +72,7 @@ def simular(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_
                 tabla.insert("", "end", values=datos)               
               
     probabilidad = 0
+    #Calcula la cantidad de experimentos Ej: 100.000 rondas // cada 10 veces = 10.000 experimentos
     cantidad_casos_probabilidad = rondas //cantidad_rondas_probabilidad
     if cantidad_casos_probabilidad != 0:
         probabilidad = round(exito/cantidad_casos_probabilidad,2)
