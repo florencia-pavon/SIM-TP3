@@ -56,7 +56,10 @@ def simular(probabilidad_1er_tiro, probabilidad_7, probabilidad_8, probabilidad_
         datos = [r+1, round(rnd_1,2), resultado_1, round(rnd_2,2), resultado_2, puntos_ronda, puntos_totales, exito]
         vector[index] = datos
         
-        if iteracion_i <= r+1 <= iteracion_i + iteracion_j:
+        if iteracion_i+iteracion_j == rondas:
+            if iteracion_i <= r+1 <= iteracion_i + iteracion_j:
+                tabla.insert("", "end", values=datos)
+        elif iteracion_i <= r+1 < iteracion_i + iteracion_j:
             tabla.insert("", "end", values=datos)
             
         if iteracion_i+iteracion_j != rondas:
